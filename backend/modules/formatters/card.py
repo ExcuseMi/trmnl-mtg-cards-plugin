@@ -1,3 +1,21 @@
+_RARITY_LETTER = {
+    'common': 'C',
+    'uncommon': 'U',
+    'rare': 'R',
+    'mythic': 'M',
+    'timeshifted': 'T',
+}
+
+MTG_VECTORS_BASE = 'https://raw.githubusercontent.com/Investigamer/mtg-vectors/main/svg/optimized/set'
+
+
+def _set_icon(set_code: str, rarity: str) -> str:
+    if not set_code:
+        return ''
+    letter = _RARITY_LETTER.get(rarity.lower(), 'C')
+    return f'{MTG_VECTORS_BASE}/{set_code.upper()}/{letter}.svg'
+
+
 def _fmt_price(sym: str, v) -> str:
     try:
         return f'{sym}{float(v):.2f}' if v is not None else ''
@@ -29,6 +47,7 @@ def shape_card(raw: dict) -> dict:
 
     prices = raw.get('prices') or {}
     set_code = raw.get('set', '')
+    rarity = raw.get('rarity', '')
 
     return {
         'id': raw.get('id', ''),
@@ -42,11 +61,12 @@ def shape_card(raw: dict) -> dict:
         'loyalty': loyalty,
         'colors': raw.get('colors') or [],
         'color_identity': raw.get('color_identity') or [],
-        'rarity': raw.get('rarity', ''),
+        'rarity': rarity,
         'set_code': set_code,
         'set_name': raw.get('set_name', ''),
         'set_release_date': raw.get('released_at', ''),
-        'set_icon': f'https://svgs.scryfall.io/sets/{set_code}.svg' if set_code else '',
+        'set_icon': _set_icon(set_code, rarity),
+        'set_icon_fallback': f'https://svgs.scryfall.io/sets/{set_code}.svg' if set_code else '',
         'collector_number': raw.get('collector_number', ''),
         'artist': raw.get('artist', ''),
         'image_large': image_uris.get('large') or image_uris.get('normal', ''),

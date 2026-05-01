@@ -5,7 +5,7 @@ services:
     restart: unless-stopped
     env_file: .env
     ports:
-      - "${BACKEND_PORT:-8695}:8080"
+      - "${BACKEND_PORT:-8696}:8080"
     depends_on:
       - redis
     deploy:

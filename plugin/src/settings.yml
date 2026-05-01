@@ -9,7 +9,7 @@ serverless_language: node
 polling_url: https://trmnl.bettens.dev/mtg-cards/card?color={{ color | url_encode }}&card_type={{ card_type | url_encode }}&rarity={{ rarity | url_encode }}&set_code={{ set_code | url_encode }}&language={{ language | url_encode }}
 polling_headers: ''
 polling_body: ''
-id: 0
+id: 297606
 custom_fields:
 - keyname: display_mode
   field_type: select
@@ -23,7 +23,7 @@ custom_fields:
 - keyname: author_info
   name: About This Plugin
   field_type: author_bio
-  description: Discover Magic: The Gathering cards on your TRMNL — browse sets, hunt for rares, or enjoy the artwork. Filter by color, type, rarity, or set. A new selection appears each refresh.<br/><br/><strong>Data:</strong> <a href="https://scryfall.com" target="_blank">Scryfall</a>.
+  description: 'Discover Magic: The Gathering cards on your TRMNL — browse sets, hunt for rares, or enjoy the artwork. Filter by color, type, rarity, or set. A new selection appears each refresh.<br/><br/><strong>Data:</strong> <a href="https://scryfall.com" target="_blank">Scryfall</a>.'
   github_url: https://github.com/ExcuseMi/trmnl-mtg-cards-plugin
   category: games,art
 - keyname: language
