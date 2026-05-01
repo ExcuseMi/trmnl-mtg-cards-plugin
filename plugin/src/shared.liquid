@@ -7,7 +7,7 @@
 {% else %}
   {% assign lbl_cls = "label label--base lg:label--large bg--gray-75 dark:bg--gray-20 rounded pl--2 pr--2" %}
   {% assign val_cls = "description description--large lg:description--xlarge" %}
-  {% assign rar_cls = "label label--base" %}
+  {% assign rar_cls = "label label--base lg:label--large"  %}
 {% endif %}
 
 <script>var __mtg = {{ items | json }};</script>
@@ -100,19 +100,28 @@
       </div>
       {% endunless %}
 
+      <div class="item w--full mtg-year-row hidden">
+        <div class="content flex flex--row flex--center-y gap--small">
+          <span class="{{ lbl_cls }}">{{ labels.released }}</span>
+          <span class="{{ val_cls }} mtg-year"></span>
+        </div>
+      </div>
+
     </div>
 
     {% if view == 1 %}
-    <div class="mtg-set-row w--full hidden flex flex--row flex--center-y gap--small">
-      <img class="mtg-set-icon image--contain w--max-8 h--max-8" alt="">
-      <span class="{{ val_cls }} mtg-set-label"></span>
+    <div class="item w--full mtg-set-row hidden">
+      <div class="content flex flex--row flex--center-y gap--small">
+        <span class="{{ lbl_cls }}">{{ labels.set_label }}</span>
+        <span class="{{ val_cls }} mtg-set-label"></span>
+      </div>
     </div>
     {% endif %}
 
     {% unless view == 4 %}
     <div class="item w--full mtg-oracle-row hidden mt--auto">
       <div class="content">
-        <span class="description description--large mtg-oracle" data-clamp="{% if view == 1 %}6{% else %}3{% endif %}" data-clamp-lg="{% if view == 1 %}10{% else %}6{% endif %}""></span>
+        <span class="{{ val_cls }} mtg-oracle" data-clamp="{% if view == 1 %}6{% else %}3{% endif %}" data-clamp-lg="{% if view == 1 %}10{% else %}6{% endif %}"></span>
       </div>
     </div>
     {% endunless %}
@@ -228,8 +237,8 @@
 
     var setYear  = item.set_release_date ? item.set_release_date.slice(0, 4) : '';
     var setLabel = item.set_name || '';
-    if (setYear) setLabel += ' (' + setYear + ')';
     show2('set-name', setLabel);
+    show2('year', setYear);
 
     var oracleEl  = q('.mtg-oracle');
     var oracleRow = q('.mtg-oracle-row');
@@ -238,12 +247,7 @@
       if (oracleRow) oracleRow.classList.remove('hidden');
     }
 
-    if (item.set_icon && item.set_name) {
-      var iconEl = q('.mtg-set-icon');
-      if (iconEl) {
-        iconEl.src = item.set_icon;
-        iconEl.alt = item.set_name;
-      }
+    if (setLabel) {
       var labelEl = q('.mtg-set-label');
       if (labelEl) labelEl.textContent = setLabel;
       var row = q('.mtg-set-row');
