@@ -1,0 +1,27 @@
+services:
+  backend:
+    build: ./backend
+    container_name: trmnl-mtg-cards-backend
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "${BACKEND_PORT:-8695}:8080"
+    depends_on:
+      - redis
+    deploy:
+      resources:
+        limits:
+          memory: 1g
+
+  redis:
+    image: redis:alpine
+    restart: unless-stopped
+    volumes:
+      - redis_data:/data
+    deploy:
+      resources:
+        limits:
+          memory: 256m
+
+volumes:
+  redis_data:

@@ -1,0 +1,93 @@
+# TRMNLP configuration
+---
+watch:
+  - .trmnlp.yml
+  - src
+
+custom_fields: {}
+
+variables:
+  trmnl:
+    system:
+      timestamp_utc: 1700000000
+    plugin_settings:
+      instance_name: "MTG Cards"
+      strategy: polling
+      dark_mode: "no"
+      no_screen_padding: "yes"
+      custom_fields_values:
+        display_mode: "stats"
+        language: "en"
+        color: "any"
+        card_type: "any"
+        rarity: "any"
+        set_code: ""
+  labels:
+    type: Type
+    mana: Mana
+    pt: P/T
+    loyalty: Loyalty
+    rarity: Rarity
+    artist: Artist
+    price: Price
+    set: Set
+  items:
+    - name: "Lightning Bolt"
+      type_line: "Instant"
+      mana_cost: "{R}"
+      cmc: 1
+      rarity: "common"
+      artist: "Christopher Rush"
+      set_name: "Magic 2010"
+      set_code: "m10"
+      set_release_date: "2009-07-17"
+      set_icon: "https://svgs.scryfall.io/sets/m10.svg"
+      image_large: "https://cards.scryfall.io/large/front/e/3/e3285e6b-3e79-4d7c-bf96-d920f973b122.jpg"
+      image_small: "https://cards.scryfall.io/normal/front/e/3/e3285e6b-3e79-4d7c-bf96-d920f973b122.jpg"
+      price_usd: "$0.50"
+      price_eur: "€0.40"
+    - name: "Tarmogoyf"
+      type_line: "Creature — Lhurgoyf"
+      mana_cost: "{1}{G}"
+      cmc: 2
+      power: "*"
+      toughness: "1+*"
+      rarity: "rare"
+      artist: "Ryan Pancoast"
+      set_name: "Future Sight"
+      set_code: "fut"
+      set_release_date: "2007-05-04"
+      set_icon: "https://svgs.scryfall.io/sets/fut.svg"
+      image_large: "https://cards.scryfall.io/large/front/b/f/bfa6bfa2-0aee-4623-a17e-a77898a5a61e.jpg"
+      image_small: "https://cards.scryfall.io/normal/front/b/f/bfa6bfa2-0aee-4623-a17e-a77898a5a61e.jpg"
+      price_usd: "$22.00"
+      price_eur: "€18.00"
+    - name: "Jace, the Mind Sculptor"
+      type_line: "Legendary Planeswalker — Jace"
+      mana_cost: "{2}{U}{U}"
+      cmc: 4
+      loyalty: "3"
+      rarity: "mythic"
+      artist: "Jason Chan"
+      set_name: "Worldwake"
+      set_code: "wwk"
+      set_release_date: "2010-02-05"
+      set_icon: "https://svgs.scryfall.io/sets/wwk.svg"
+      image_large: "https://cards.scryfall.io/large/front/1/c/1c3e33d9-09c6-4fe1-874c-79c2cb0fff68.jpg"
+      image_small: "https://cards.scryfall.io/normal/front/1/c/1c3e33d9-09c6-4fe1-874c-79c2cb0fff68.jpg"
+      price_usd: "$48.00"
+      price_eur: "€40.00"
+    - name: "Counterspell"
+      type_line: "Instant"
+      mana_cost: "{U}{U}"
+      cmc: 2
+      rarity: "common"
+      artist: "Mark Poole"
+      set_name: "Tempest"
+      set_code: "tmp"
+      set_release_date: "1997-10-14"
+      set_icon: "https://svgs.scryfall.io/sets/tmp.svg"
+      image_large: "https://cards.scryfall.io/large/front/8/c/8c2aa02a-e0ed-4f20-8e8f-18bef1c7f89d.jpg"
+      image_small: "https://cards.scryfall.io/normal/front/8/c/8c2aa02a-e0ed-4f20-8e8f-18bef1c7f89d.jpg"
+      price_usd: "$2.00"
+      price_eur: "€1.50"

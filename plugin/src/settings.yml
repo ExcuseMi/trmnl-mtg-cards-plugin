@@ -1,0 +1,99 @@
+---
+strategy: polling
+no_screen_padding: 'yes'
+dark_mode: 'no'
+static_data: ''
+polling_verb: get
+framework_version: 3.1.0
+serverless_language: node
+polling_url: https://trmnl.bettens.dev/mtg-cards/card?color={{ color | url_encode }}&card_type={{ card_type | url_encode }}&rarity={{ rarity | url_encode }}&set_code={{ set_code | url_encode }}&language={{ language | url_encode }}
+polling_headers: ''
+polling_body: ''
+id: 0
+custom_fields:
+- keyname: display_mode
+  field_type: select
+  name: Display Mode
+  description: Show card art only, or art plus stats.
+  options:
+  - Art + Stats: stats
+  - Art Only: art
+  default: stats
+  optional: true
+- keyname: author_info
+  name: About This Plugin
+  field_type: author_bio
+  description: Discover Magic: The Gathering cards on your TRMNL — browse sets, hunt for rares, or enjoy the artwork. Filter by color, type, rarity, or set. A new selection appears each refresh.<br/><br/><strong>Data:</strong> <a href="https://scryfall.com" target="_blank">Scryfall</a>.
+  github_url: https://github.com/ExcuseMi/trmnl-mtg-cards-plugin
+  category: games,art
+- keyname: language
+  field_type: select
+  name: Language
+  description: Card language served by Scryfall.
+  options:
+  - English: en
+  - German: de
+  - French: fr
+  - Spanish: es
+  - Italian: it
+  - Portuguese: pt
+  - Japanese: ja
+  - Korean: ko
+  - Russian: ru
+  - Chinese (Simplified): zhs
+  - Chinese (Traditional): zht
+  default: en
+  optional: true
+- keyname: color
+  field_type: select
+  name: Color
+  description: Show only cards of a specific color.
+  options:
+  - Any: any
+  - White: W
+  - Blue: U
+  - Black: B
+  - Red: R
+  - Green: G
+  - Multicolor: m
+  - Colorless: c
+  default: any
+  optional: true
+- keyname: card_type
+  field_type: select
+  name: Card Type
+  description: Show only cards of a specific type.
+  options:
+  - Any: any
+  - Creature: creature
+  - Instant: instant
+  - Sorcery: sorcery
+  - Enchantment: enchantment
+  - Artifact: artifact
+  - Planeswalker: planeswalker
+  - Land: land
+  - Battle: battle
+  default: any
+  optional: true
+- keyname: rarity
+  field_type: select
+  name: Rarity
+  description: Show only cards of a specific rarity. Great for browsing valuable or illustration cards.
+  options:
+  - Any: any
+  - Common: common
+  - Uncommon: uncommon
+  - Rare: rare
+  - Mythic: mythic
+  default: any
+  optional: true
+- keyname: set_code
+  field_type: xhrSelectSearch
+  name: Set
+  description: Filter to a specific set. Leave empty to draw from all sets.
+  endpoint: https://trmnl.bettens.dev/mtg-cards/sets
+  http_verb: post
+  exclude_csrf_token: true
+  optional: true
+name: MTG Cards
+refresh_interval: 15
