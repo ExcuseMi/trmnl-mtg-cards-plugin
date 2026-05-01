@@ -12,7 +12,7 @@
 
 <script>var __mtg = {{ items | json }};</script>
 
-<div class="layout {% unless view == 3 %}layout--row {% else %}layout--col{% endunless %} layout--top gap--medium h--full m--0 p--0">
+<div class="layout {% unless view == 3 %}layout--row layout--top {% else %}layout--col{% endunless %}  gap--medium h--full m--0 p--0">
   <img class="mtg-img image image-dither image--contain h--full
     {% if view == 1 %}    portrait:hidden lg:portrait:block
     {% elsif view == 2 %}
@@ -122,9 +122,9 @@
   {% elsif view == 4 %}
   lg:portrait:hidden
   {% endif %}">
-  <img class="image h--8 mtg-set-icon-bar hidden" alt="">
-  <span class="title mtg-title"></span>
-  <span class="instance mtg-instance
+  <img class="image h--8 mtg-set-icon-bar image--stroke hidden" alt="">
+  <span class="title text--stroke mtg-title"></span>
+  <span class="instance text--stroke mtg-instance
   {% if view >= 3 %}
   md:portrait:hidden
   {% endif %}"></span>

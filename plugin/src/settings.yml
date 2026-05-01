@@ -95,5 +95,5 @@ custom_fields:
   http_verb: post
   exclude_csrf_token: true
   optional: true
-name: MTG Cards
+name: Magic The Gathering Cards
 refresh_interval: 15
