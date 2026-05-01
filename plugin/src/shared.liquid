@@ -233,7 +233,7 @@
     var priceParts = [];
     if (item.price_usd) priceParts.push(item.price_usd);
     if (item.price_eur) priceParts.push(item.price_eur);
-    show2('price', priceParts.join(' ◆ '));
+    show2('price', priceParts.join(' · '));
 
     var setYear  = item.set_release_date ? item.set_release_date.slice(0, 4) : '';
     var setLabel = item.set_name || '';
