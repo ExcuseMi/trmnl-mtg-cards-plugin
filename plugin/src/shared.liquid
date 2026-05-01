@@ -1,11 +1,11 @@
 {% template main %}
 {% assign display_mode = trmnl.plugin_settings.custom_fields_values.display_mode | default: 'stats' %}
 {% if view == 1 %}
-  {% assign lbl_cls = "label label--base lg:label--xlarge bg--gray-75 rounded pl--2 pr--2" %}
+  {% assign lbl_cls = "label label--base lg:label--xlarge bg--gray-75 dark:bg--gray-20 rounded pl--2 pr--2" %}
   {% assign val_cls = "description description--large lg:description--xxlarge" %}
   {% assign rar_cls = "label label--base lg:label--large" %}
 {% else %}
-  {% assign lbl_cls = "label label--base lg:label--large bg--gray-75 rounded pl--2 pr--2" %}
+  {% assign lbl_cls = "label label--base lg:label--large bg--gray-75 dark:bg--gray-20 rounded pl--2 pr--2" %}
   {% assign val_cls = "description description--large lg:description--xlarge" %}
   {% assign rar_cls = "label label--base" %}
 {% endif %}
@@ -30,7 +30,7 @@
     alt="">
 
   {% unless display_mode == 'art' %}
-  <div class="flex--col gap--small stretch-x
+  <div class="flex--col gap--small stretch-x w--full
     {% if view == 1 %}   flex portrait:hidden
     {% elsif view == 2 %}flex portrait:hidden lg:portrait:flex
     {% elsif view == 3 %}hidden portrait:flex
@@ -38,52 +38,52 @@
     {% endif %}">
     <span class="label label--underline label--large lg:label--xxlarge mtg-name" data-clamp="2"></span>
 
-    <div class="{% if view == 2 %}grid grid--cols-2 portrait:grid--cols-1 gap--small{% else %}flex flex--col{% endif %}">
+    <div class="w--full {% if view == 2 %}grid grid--cols-2 portrait:grid--cols-1 gap--small{% else %}flex flex--col{% endif %}">
 
-      <div class="item mtg-type-row hidden">
+      <div class="item w--full mtg-type-row hidden">
         <div class="content flex flex--row flex--center-y gap--small">
           <span class="{{ lbl_cls }}">{{ labels.type }}</span>
           <span class="{{ val_cls }} mtg-type" data-clamp="3"></span>
         </div>
       </div>
 
-      <div class="item mtg-mana-row hidden">
+      <div class="item w--full mtg-mana-row hidden">
         <div class="content flex flex--row flex--center-y gap--small">
           <span class="{{ lbl_cls }}">{{ labels.mana }}</span>
           <span class="{{ val_cls }} mtg-mana"></span>
         </div>
       </div>
 
-      <div class="item mtg-pt-row hidden">
+      <div class="item w--full mtg-pt-row hidden">
         <div class="content flex flex--row flex--center-y gap--small">
           <span class="{{ lbl_cls }}">{{ labels.pt }}</span>
           <span class="{{ val_cls }} mtg-pt"></span>
         </div>
       </div>
 
-      <div class="item mtg-loyalty-row hidden">
+      <div class="item w--full mtg-loyalty-row hidden">
         <div class="content flex flex--row flex--center-y gap--small">
           <span class="{{ lbl_cls }}">{{ labels.loyalty }}</span>
           <span class="{{ val_cls }} mtg-loyalty"></span>
         </div>
       </div>
 
-      {% if view == 1 or view == 3 %}
-      <div class="item mtg-rarity-row hidden">
+      {% if view == 1 or view == 2 or view == 3 %}
+      <div class="item w--full mtg-rarity-row hidden">
         <div class="content flex flex--row flex--center-y gap--small">
           <span class="{{ lbl_cls }}">{{ labels.rarity }}</span>
           <span class="{{ rar_cls }} mtg-rarity"></span>
         </div>
       </div>
 
-      <div class="item mtg-artist-row hidden">
+      <div class="item w--full mtg-artist-row hidden">
         <div class="content flex flex--row flex--center-y gap--small">
           <span class="{{ lbl_cls }}">{{ labels.artist }}</span>
           <span class="{{ val_cls }} mtg-artist"></span>
         </div>
       </div>
 
-      <div class="item mtg-price-row hidden">
+      <div class="item w--full mtg-price-row hidden">
         <div class="content flex flex--row flex--center-y gap--small">
           <span class="{{ lbl_cls }}">{{ labels.price }}</span>
           <span class="{{ val_cls }} mtg-price"></span>
@@ -92,7 +92,7 @@
       {% endif %}
 
       {% unless view == 1 %}
-      <div class="item mtg-set-name-row hidden">
+      <div class="item w--full mtg-set-name-row hidden">
         <div class="content flex flex--row flex--center-y gap--small">
           <span class="{{ lbl_cls }}">{{ labels.set }}</span>
           <span class="{{ val_cls }} mtg-set-name"></span>
@@ -103,11 +103,19 @@
     </div>
 
     {% if view == 1 %}
-    <div class="mtg-set-row hidden flex flex--row flex--center-y gap--small">
+    <div class="mtg-set-row w--full hidden flex flex--row flex--center-y gap--small">
       <img class="mtg-set-icon image--contain w--max-8 h--max-8" alt="">
       <span class="{{ val_cls }} mtg-set-label"></span>
     </div>
     {% endif %}
+
+    {% unless view == 4 %}
+    <div class="item w--full mtg-oracle-row hidden mt--auto">
+      <div class="content">
+        <span class="description description--large mtg-oracle" data-clamp="{% if view == 1 %}6{% else %}3{% endif %}" data-clamp-lg="{% if view == 1 %}10{% else %}6{% endif %}""></span>
+      </div>
+    </div>
+    {% endunless %}
   </div>
   {% endunless %}
 </div>
@@ -122,7 +130,7 @@
   {% elsif view == 4 %}
   lg:portrait:hidden
   {% endif %}">
-  <img class="h--8 mtg-set-icon-bar image--stroke-black hidden" alt="">
+  <img class="image-dither h--8 mtg-set-icon-bar image--stroke-black hidden" alt="">
   <span class="title text--stroke mtg-title"></span>
   <span class="instance text--stroke mtg-instance
   {% if view >= 3 %}
@@ -183,8 +191,24 @@
       return '';
     }
 
+    function escHtml(s) {
+      return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+    function fmtSymbols(text) {
+      return escHtml(text).replace(/\{([^}]+)\}/g, function(_, sym) {
+        return '<img src="https://svgs.scryfall.io/card-symbols/' + sym + '.svg" style="height:0.85em;vertical-align:middle;display:inline-block;margin-right:0.15em;" alt="{' + escHtml(sym) + '}">';
+      });
+    }
+    function showHtml(key, html) {
+      if (!html) return;
+      var val = q('.mtg-' + key);
+      var row = q('.mtg-' + key + '-row');
+      if (val) val.innerHTML = html;
+      if (row) row.classList.remove('hidden');
+    }
+
     show2('type', item.type_line);
-    show2('mana', item.mana_cost);
+    showHtml('mana', item.mana_cost ? fmtSymbols(item.mana_cost) : null);
 
     if (item.power != null && item.toughness != null) {
       show2('pt', item.power + '/' + item.toughness);
@@ -197,13 +221,22 @@
     show2('rarity', rarityLabel, rarityClass(item.rarity));
     show2('artist', item.artist);
 
-    var price = item.price_usd || item.price_eur || '';
-    show2('price', price);
+    var priceParts = [];
+    if (item.price_usd) priceParts.push(item.price_usd);
+    if (item.price_eur) priceParts.push(item.price_eur);
+    show2('price', priceParts.join(' / '));
 
     var setYear  = item.set_release_date ? item.set_release_date.slice(0, 4) : '';
     var setLabel = item.set_name || '';
     if (setYear) setLabel += ' (' + setYear + ')';
     show2('set-name', setLabel);
+
+    var oracleEl  = q('.mtg-oracle');
+    var oracleRow = q('.mtg-oracle-row');
+    if (oracleEl && item.oracle_text) {
+      oracleEl.innerHTML = fmtSymbols(item.oracle_text).replace(/\n/g, '<br>');
+      if (oracleRow) oracleRow.classList.remove('hidden');
+    }
 
     if (item.set_icon && item.set_name) {
       var iconEl = q('.mtg-set-icon');
