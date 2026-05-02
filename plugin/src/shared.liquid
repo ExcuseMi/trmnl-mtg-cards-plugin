@@ -141,6 +141,7 @@
   {% endif %}">
   <img class="image-dither h--8 mtg-set-icon-bar image--stroke-black hidden" alt="">
   <span class="title text--stroke mtg-title"></span>
+  {% if pool_warning %}<span class="label label--warning">{{ pool_warning }} cards</span>{% endif %}
   <span class="instance text--stroke mtg-instance
   {% if view >= 3 %}
   md:portrait:hidden
@@ -151,8 +152,9 @@
   (function() {
     var views = Array.from(document.querySelectorAll('.view'));
     var host  = document.currentScript.closest('.view') || document.body;
+    var pool  = __mtg || [];
     var idx   = views.indexOf(host) % 4;
-    var item  = (__mtg || [])[idx] || null;
+    var item  = pool.length ? pool[idx % pool.length] : null;
     var name  = '{{ trmnl.plugin_settings.instance_name | escape }}';
     function q(sel) { return host.querySelector(sel); }
 

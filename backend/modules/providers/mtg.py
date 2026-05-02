@@ -14,16 +14,31 @@ MAX_PAGES = int(os.getenv('MTG_MAX_PAGES', '3'))
 USER_AGENT = 'TRMNL-MTG-Plugin/1.0 (trmnl.bettens.dev)'
 
 
-def _build_query(color: str, card_type: str, rarity: str, set_code: str, language: str) -> str:
+def _parse_multi(value: str) -> list[str]:
+    return [v.strip() for v in (value or '').split(',') if v.strip() and v.strip().lower() != 'any']
+
+
+def _or_clause(prefix: str, values: list[str]) -> str:
+    if not values:
+        return ''
+    if len(values) == 1:
+        return f'{prefix}:{values[0]}'
+    return '(' + ' or '.join(f'{prefix}:{v}' for v in values) + ')'
+
+
+def _build_query(colors: list[str], card_types: list[str], rarities: list[str], set_code: str, language: str) -> str:
     parts = ['has:art', '-layout:art_series', '-layout:token', '-layout:emblem']
     if set_code and set_code.lower() != 'any':
         parts.append(f's:{set_code}')
-    if color and color.lower() not in ('any', ''):
-        parts.append(f'c:{color}')
-    if card_type and card_type.lower() not in ('any', ''):
-        parts.append(f't:{card_type}')
-    if rarity and rarity.lower() not in ('any', ''):
-        parts.append(f'r:{rarity}')
+    clause = _or_clause('c', colors)
+    if clause:
+        parts.append(clause)
+    clause = _or_clause('t', card_types)
+    if clause:
+        parts.append(clause)
+    clause = _or_clause('r', rarities)
+    if clause:
+        parts.append(clause)
     if language and language.lower() not in ('en', 'any', ''):
         parts.append(f'lang:{language}')
     return ' '.join(parts)
@@ -32,17 +47,17 @@ def _build_query(color: str, card_type: str, rarity: str, set_code: str, languag
 class MtgProvider(BaseProvider):
 
     async def _fetch(self, **filters) -> list[dict] | None:
-        color = filters.get('color', '').strip()
-        card_type = filters.get('card_type', '').strip()
-        rarity = filters.get('rarity', '').strip()
+        colors = _parse_multi(filters.get('color', ''))
+        card_types = _parse_multi(filters.get('card_type', ''))
+        rarities = _parse_multi(filters.get('rarity', ''))
         set_code = filters.get('set_code', '').strip()
         language = (filters.get('language', 'en') or 'en').strip()
 
-        query = _build_query(color, card_type, rarity, set_code, language)
+        query = _build_query(colors, card_types, rarities, set_code, language)
         cards = await self._search(query)
         if not cards and language != 'en':
             log.info('No cards for language=%s, falling back to en', language)
-            query_en = _build_query(color, card_type, rarity, set_code, 'en')
+            query_en = _build_query(colors, card_types, rarities, set_code, 'en')
             cards = await self._search(query_en)
         return cards
 
